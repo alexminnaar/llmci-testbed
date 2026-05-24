@@ -1,4 +1,4 @@
-# Real LLM judge config — requires OPENAI_API_KEY. Use scaffold-mock.yaml for CI/mock runs.
+# Real LLM judge config — requires OPENAI_API_KEY. Use llmci-mock.yaml for CI/mock runs.
 version: 1
 
 target:

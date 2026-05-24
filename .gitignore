@@ -4,7 +4,7 @@ __pycache__/
 .venv/
 venv/
 .env
-.scaffold/cache/
+.llmci/cache/
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
