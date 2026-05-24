@@ -1,4 +1,4 @@
-name: Scaffold Evals
+name: llmci Evals
 
 on:
   pull_request:
@@ -27,19 +27,19 @@ jobs:
       matrix:
         include:
           - service: ticket-classifier
-            config: scaffold.yaml
+            config: llmci.yaml
           - service: ticket-classifier
-            config: scaffold-prompt.yaml
+            config: llmci-prompt.yaml
           - service: rag-qa
-            config: scaffold.yaml
+            config: llmci.yaml
           - service: json-api
-            config: scaffold.yaml
+            config: llmci.yaml
           - service: support-agent
-            config: scaffold-single.yaml
+            config: llmci-single.yaml
           - service: support-agent
-            config: scaffold-multi.yaml
+            config: llmci-multi.yaml
           - service: summarizer
-            config: scaffold-mock.yaml
+            config: llmci-mock.yaml
     steps:
       - uses: actions/checkout@v4
         with:
@@ -53,7 +53,7 @@ jobs:
         env:
           MOCK_LLM: "1"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SCAFFOLD_REPORT_SLICE: ${{ matrix.service }}/${{ matrix.config }}
+          LLMCI_REPORT_SLICE: ${{ matrix.service }}/${{ matrix.config }}
         run: |
           ARGS="--config ${{ matrix.config }}"
           if [ "${{ github.event_name }}" = "push" ] && [ "${{ github.ref }}" = "refs/heads/main" ]; then
@@ -61,4 +61,4 @@ jobs:
           else
             ARGS="$ARGS --compare-to=origin/main"
           fi
-          ../../shared/scripts/scaffold_run.sh $ARGS
+          ../../shared/scripts/llmci_run.sh $ARGS

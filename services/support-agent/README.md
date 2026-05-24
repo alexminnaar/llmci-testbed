@@ -6,15 +6,15 @@ From `services/support-agent/`:
 
 ```bash
 # Default (same as single-turn CI config)
-MOCK_LLM=1 scaffold run
+MOCK_LLM=1 llmci run
 
 # Explicit configs
-MOCK_LLM=1 ../../shared/scripts/scaffold_run.sh --config scaffold-single.yaml
-MOCK_LLM=1 ../../shared/scripts/scaffold_run.sh --config scaffold-multi.yaml
-MOCK_LLM=1 ../../shared/scripts/scaffold_run.sh --config scaffold-history.yaml
+MOCK_LLM=1 ../../shared/scripts/llmci_run.sh --config llmci-single.yaml
+MOCK_LLM=1 ../../shared/scripts/llmci_run.sh --config llmci-multi.yaml
+MOCK_LLM=1 ../../shared/scripts/llmci_run.sh --config llmci-history.yaml
 
 # Full composite judge (requires OPENAI_API_KEY)
-OPENAI_API_KEY=... ../../shared/scripts/scaffold_run.sh --config scaffold-single-full.yaml
+OPENAI_API_KEY=... ../../shared/scripts/llmci_run.sh --config llmci-single-full.yaml
 ```
 
 CI uses constraint-only composite judges (`mean_score` only). The outline's `error_rate` metric is omitted because `llmci` absolute thresholds require `score >= threshold` (error_rate would need inverted semantics).

@@ -1,10 +1,10 @@
 # Scaffold Testbed — Acme Support
 
-[![Scaffold Evals](https://github.com/alexminnaar/scaffold-testbed/actions/workflows/scaffold.yml/badge.svg)](https://github.com/alexminnaar/scaffold-testbed/actions/workflows/scaffold.yml)
+[![llmci Evals](https://github.com/alexminnaar/scaffold-testbed/actions/workflows/llmci.yml/badge.svg)](https://github.com/alexminnaar/scaffold-testbed/actions/workflows/llmci.yml)
 
-Realistic customer monorepo for dogfooding [Scaffold](https://github.com/alexminnaar/scaffold) ([`llmci`](https://pypi.org/project/llmci/) on PyPI). Fictional company **Acme Support** runs ticket classification, RAG helpdesk, summarization QA, and a support agent — all evaluable with `scaffold run`.
+Realistic customer monorepo for dogfooding [`llmci`](https://pypi.org/project/llmci/) ([source](https://github.com/alexminnaar/scaffold)). Fictional company **Acme Support** runs ticket classification, RAG helpdesk, summarization QA, and a support agent — all evaluable with `llmci run`.
 
-**Implementation spec:** [TESTBED_OUTLINE.md](https://github.com/alexminnaar/scaffold/blob/main/TESTBED_OUTLINE.md) in the main Scaffold repo.
+**Implementation spec:** [TESTBED_OUTLINE.md](https://github.com/alexminnaar/scaffold/blob/main/TESTBED_OUTLINE.md) in the main llmci repo.
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ make install
 # or: pip install -e ".[dev]"
 ```
 
-CI runs `pip install --upgrade llmci` (requires 0.1.1+ for merged PR comment slices via `SCAFFOLD_REPORT_SLICE`).
+CI runs `pip install --upgrade llmci` (requires 0.1.1+ for merged PR comment slices via `LLMCI_REPORT_SLICE`).
 
 **Scaffold developers only** — unreleased CLI changes:
 
@@ -33,10 +33,10 @@ make eval-classifier
 
 ## Alternate config files
 
-The `llmci` CLI does not yet support `scaffold run --config`. Use the wrapper from each service directory:
+The `llmci` CLI does not yet support `llmci run --config`. Use the wrapper from each service directory:
 
 ```bash
-MOCK_LLM=1 ../../shared/scripts/scaffold_run.sh --config scaffold-prompt.yaml
+MOCK_LLM=1 ../../shared/scripts/llmci_run.sh --config llmci-prompt.yaml
 ```
 
 ## Services
@@ -57,7 +57,7 @@ MOCK_LLM=1 ../../shared/scripts/scaffold_run.sh --config scaffold-prompt.yaml
 | `MOCK_LLM` | `1` | Deterministic keyword/fixture logic |
 | `OPENAI_API_KEY` | unset | Required for real LLM judge / migration |
 
-CI runs all services in mock mode with `--compare-to=origin/main` on PRs. Use **Scaffold LLM Evals** (manual dispatch) for real LLM runs.
+CI runs all services in mock mode with `--compare-to=origin/main` on PRs. Use **llmci LLM Evals** (manual dispatch) for real LLM runs.
 
 ## Run all mock evals
 
@@ -73,18 +73,18 @@ Covers the same 7 eval configs as the CI matrix.
 docker compose up -d
 ../../shared/scripts/wait_for_http.sh http://localhost:8000/health
 cd services/ticket-classifier
-CLASSIFIER_URL=http://localhost:8000 MOCK_LLM=1 scaffold run
+CLASSIFIER_URL=http://localhost:8000 MOCK_LLM=1 llmci run
 ```
 
 ## Add a new service
 
-1. Create `services/<name>/` with `scaffold.yaml`, `evals/*.jsonl`, and a command target script.
-2. Add a matrix entry to `.github/workflows/scaffold.yml`.
-3. On `main`: `MOCK_LLM=1 scaffold run --update-baseline` and commit `.scaffold/baselines/`.
+1. Create `services/<name>/` with `llmci.yaml`, `evals/*.jsonl`, and a command target script.
+2. Add a matrix entry to `.github/workflows/llmci.yml`.
+3. On `main`: `MOCK_LLM=1 llmci run --update-baseline` and commit `.llmci/baselines/`.
 
 ## Links
 
-- [Scaffold on GitHub](https://github.com/alexminnaar/scaffold)
+- [llmci on GitHub](https://github.com/alexminnaar/scaffold)
 - [llmci on PyPI](https://pypi.org/project/llmci/)
 
 ## Demo regression branches
