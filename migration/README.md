@@ -1,12 +1,12 @@
 # Model Migration
 
-Demonstrates `scaffold migrate` on ticket classification prompt.
+Demonstrates `llmci migrate` on ticket classification prompt.
 
 ## Usage
 
 ```bash
 export OPENAI_API_KEY=...
-scaffold migrate \
+llmci migrate \
   --from openai/gpt-4o \
   --to openai/gpt-4o-mini \
   --eval ticket-classification \
@@ -18,6 +18,6 @@ scaffold migrate \
 
 After migration, expect holdout accuracy in the **0.85–0.95** range with `gpt-4o-mini` on the ticket dataset.
 
-Excluded from default PR CI (requires API key). Run via **Scaffold LLM Evals** workflow or locally.
+Excluded from default PR CI (requires API key). Run via **llmci LLM Evals** workflow or locally.
 
 Maps to docs case study `cs-migration` and `examples/02-model-migration`.

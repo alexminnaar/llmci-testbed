@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Run scaffold with an alternate config file (until scaffold CLI supports --config).
+# Run llmci with an alternate config file (until llmci CLI supports --config).
 set -euo pipefail
 
-CONFIG="scaffold.yaml"
+CONFIG="llmci.yaml"
 EXTRA=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -19,29 +19,29 @@ done
 
 RESTORE=0
 CREATED=0
-if [[ "$CONFIG" != "scaffold.yaml" ]]; then
-  if [[ -f scaffold.yaml ]]; then
-    cp scaffold.yaml .scaffold.yaml.bak
+if [[ "$CONFIG" != "llmci.yaml" ]]; then
+  if [[ -f llmci.yaml ]]; then
+    cp llmci.yaml .llmci.yaml.bak
     RESTORE=1
   else
     CREATED=1
   fi
-  cp "$CONFIG" scaffold.yaml
+  cp "$CONFIG" llmci.yaml
 fi
 
 set +e
 if ((${#EXTRA[@]})); then
-  scaffold run "${EXTRA[@]}"
+  llmci run "${EXTRA[@]}"
 else
-  scaffold run
+  llmci run
 fi
 STATUS=$?
 set -e
 
 if [[ "$RESTORE" -eq 1 ]]; then
-  mv .scaffold.yaml.bak scaffold.yaml
+  mv .llmci.yaml.bak llmci.yaml
 elif [[ "$CREATED" -eq 1 ]]; then
-  rm -f scaffold.yaml
+  rm -f llmci.yaml
 fi
 
 exit $STATUS
