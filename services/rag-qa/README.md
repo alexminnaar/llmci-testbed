@@ -3,7 +3,7 @@
 Mock RAG pipeline: retrieve from in-memory knowledge base → generate answer.
 
 ```bash
-MOCK_LLM=1 scaffold run
+MOCK_LLM=1 llmci run
 ```
 
 Maps to docs case study `cs-rag` and `examples/07-pipeline-level`.
