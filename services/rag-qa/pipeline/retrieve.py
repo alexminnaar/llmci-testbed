@@ -30,7 +30,7 @@ KNOWLEDGE_BASE = {
 }
 
 
-def retrieve(query: str, top_k: int = 2) -> list[str]:
+def retrieve(query: str, top_k: int = 0) -> list[str]:
     query_lower = query.lower()
     scored = []
     for entry in KNOWLEDGE_BASE.values():
