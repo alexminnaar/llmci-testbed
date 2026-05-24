@@ -16,7 +16,7 @@ make install
 # or: pip install -e ".[dev]"
 ```
 
-CI runs `pip install --upgrade llmci` so new PyPI releases are picked up automatically.
+CI runs `pip install --upgrade llmci` (requires 0.1.1+ for merged PR comment slices via `SCAFFOLD_REPORT_SLICE`).
 
 **Scaffold developers only** — unreleased CLI changes:
 
