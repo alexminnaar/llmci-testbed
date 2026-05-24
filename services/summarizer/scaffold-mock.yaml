@@ -1,0 +1,38 @@
+version: 1
+
+target:
+  command: "python3 app/run.py --input {input_file} --output {output_file}"
+
+evals:
+  - name: summary-with-refs
+    dataset: ./evals/articles_with_refs.jsonl
+    judge:
+      type: custom
+      module: ./mock_summary_judge.py
+      function: evaluate
+    metrics:
+      - name: mean_score
+        threshold: 0.70
+        mode: absolute
+      - name: pass_rate
+        threshold: 0.70
+        mode: absolute
+
+  - name: summary-no-refs
+    dataset: ./evals/articles_no_refs.jsonl
+    judge:
+      type: custom
+      module: ./mock_summary_judge.py
+      function: evaluate
+    metrics:
+      - name: mean_score
+        threshold: 0.65
+        mode: absolute
+      - name: pass_rate
+        threshold: 0.70
+        mode: absolute
+
+settings:
+  parallelism: 3
+  timeout_per_call: 15
+  retries: 1

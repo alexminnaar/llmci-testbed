@@ -1,0 +1,9 @@
+{
+  "eval_name": "service-classification",
+  "metrics": {
+    "accuracy": 0.7916666666666666,
+    "f1_weighted": 0.8772727272727274
+  },
+  "timestamp": "2026-05-24T00:18:54.988487+00:00",
+  "commit_sha": "unknown"
+}

@@ -1,0 +1,9 @@
+{
+  "eval_name": "support-agent-single",
+  "metrics": {
+    "mean_score": 1.0,
+    "pass_rate": 1.0
+  },
+  "timestamp": "2026-05-24T00:19:00.971599+00:00",
+  "commit_sha": "unknown"
+}

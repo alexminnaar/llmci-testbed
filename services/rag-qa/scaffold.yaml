@@ -1,0 +1,25 @@
+version: 1
+
+target:
+  command: "python3 pipeline/run.py --input {input_file} --output {output_file}"
+
+evals:
+  - name: rag-qa
+    level: pipeline
+    dataset: ./evals/qa.jsonl
+    judge:
+      type: custom
+      module: ./rag_judge.py
+      function: evaluate
+    metrics:
+      - name: pass_rate
+        threshold: 0.80
+        mode: absolute
+      - name: mean_score
+        threshold: 0.75
+        mode: absolute
+
+settings:
+  parallelism: 5
+  timeout_per_call: 10
+  retries: 1

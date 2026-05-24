@@ -1,0 +1,25 @@
+version: 1
+
+target:
+  command: "python3 scripts/eval_service.py --input {input_file} --output {output_file}"
+
+evals:
+  - name: service-classification
+    level: pipeline
+    dataset: ./evals/tickets.jsonl
+    judge: exact_match
+    metrics:
+      - name: accuracy
+        threshold: 0.75
+        mode: absolute
+      - name: f1_weighted
+        threshold: 0.70
+        mode: absolute
+      - name: accuracy
+        threshold: 0.03
+        mode: max_regression
+
+settings:
+  parallelism: 5
+  timeout_per_call: 15
+  retries: 1

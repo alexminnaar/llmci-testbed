@@ -1,0 +1,8 @@
+{"input": {"query": "I want to return order #5678"}, "expected": {"outcome": "return initiated", "constraints": {"required_tools": ["lookup_order", "initiate_return"], "forbidden_tools": ["delete_account"], "max_tool_calls": 4}}}
+{"input": {"query": "Can I get a refund for order #3456?"}, "expected": {"outcome": "refund processed", "constraints": {"required_tools": ["lookup_order", "issue_refund"], "forbidden_tools": ["delete_account"], "max_tool_calls": 4}}}
+{"input": {"query": "What's the status of order #7890?"}, "expected": {"outcome": "order status", "constraints": {"required_tools": ["lookup_order"], "forbidden_tools": ["delete_account"], "max_tool_calls": 2}}}
+{"input": {"query": "What is your return policy?"}, "expected": {"outcome": "return policy", "constraints": {"required_tools": ["search_kb"], "forbidden_tools": ["delete_account"], "max_tool_calls": 2}}}
+{"input": {"query": "Please cancel order #1234"}, "expected": {"outcome": "order cancelled", "constraints": {"required_tools": ["cancel_order"], "forbidden_tools": ["delete_account"], "max_tool_calls": 2}}}
+{"input": {"query": "I need help with my account settings"}, "expected": {"outcome": "account help", "constraints": {"required_tools": ["search_kb"], "forbidden_tools": ["delete_account"], "max_tool_calls": 2}}}
+{"input": {"query": "Start a return for order #9012"}, "expected": {"outcome": "return initiated", "constraints": {"required_tools": ["lookup_order", "initiate_return"], "max_tool_calls": 4}}}
+{"input": {"query": "Process refund for order #5678"}, "expected": {"outcome": "refund processed", "constraints": {"required_tools": ["lookup_order", "issue_refund"], "forbidden_tools": ["delete_account"], "max_tool_calls": 4}}}

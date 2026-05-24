@@ -1,0 +1,67 @@
+name: Scaffold LLM Evals
+
+on:
+  workflow_dispatch:
+    inputs:
+      service:
+        description: "Service directory name"
+        required: true
+        type: choice
+        options:
+          - summarizer
+          - migration
+          - support-agent
+          - support-agent-multi
+          - support-agent-history
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]" && pip install --upgrade llmci
+      - name: Run summarizer eval
+        if: inputs.service == 'summarizer'
+        working-directory: services/summarizer
+        env:
+          MOCK_LLM: "0"
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ../../shared/scripts/scaffold_run.sh --config scaffold.yaml
+      - name: Run migration eval
+        if: inputs.service == 'migration'
+        working-directory: migration
+        env:
+          MOCK_LLM: "0"
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: scaffold run
+      - name: Run support-agent full composite
+        if: inputs.service == 'support-agent'
+        working-directory: services/support-agent
+        env:
+          MOCK_LLM: "0"
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ../../shared/scripts/scaffold_run.sh --config scaffold-single-full.yaml
+      - name: Run support-agent multi-turn composite
+        if: inputs.service == 'support-agent-multi'
+        working-directory: services/support-agent
+        env:
+          MOCK_LLM: "0"
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ../../shared/scripts/scaffold_run.sh --config scaffold-multi.yaml
+      - name: Run support-agent history injection
+        if: inputs.service == 'support-agent-history'
+        working-directory: services/support-agent
+        env:
+          MOCK_LLM: "1"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ../../shared/scripts/scaffold_run.sh --config scaffold-history.yaml

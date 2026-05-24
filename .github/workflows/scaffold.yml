@@ -1,0 +1,63 @@
+name: Scaffold Evals
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+      - run: ruff check services/ shared/
+
+  eval:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    permissions:
+      contents: read
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: ticket-classifier
+            config: scaffold.yaml
+          - service: ticket-classifier
+            config: scaffold-prompt.yaml
+          - service: rag-qa
+            config: scaffold.yaml
+          - service: json-api
+            config: scaffold.yaml
+          - service: support-agent
+            config: scaffold-single.yaml
+          - service: support-agent
+            config: scaffold-multi.yaml
+          - service: summarizer
+            config: scaffold-mock.yaml
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]" && pip install --upgrade llmci
+      - name: Run eval
+        working-directory: services/${{ matrix.service }}
+        env:
+          MOCK_LLM: "1"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ARGS="--config ${{ matrix.config }}"
+          if [ "${{ github.event_name }}" = "push" ] && [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            ARGS="$ARGS --update-baseline"
+          else
+            ARGS="$ARGS --compare-to=origin/main"
+          fi
+          ../../shared/scripts/scaffold_run.sh $ARGS
